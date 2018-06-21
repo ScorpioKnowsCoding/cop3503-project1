@@ -43,11 +43,40 @@ public:
 		}
 		else
 		{
-			head->next = temp;
+			head->previous = temp;
 			if (_nodeCounter == 1)
-				tail->next = temp;
-			temp->previous = head;
+				tail->previous = temp;
+			temp->next = head;
 			head = temp;
+			temp = nullptr;
+		}
+		_nodeCounter++;
+	}
+
+	// AddTail
+	void AddTail(const T &data)
+	{
+		// Create a temp node
+		Node* temp = new Node();
+		temp->_data = data;
+		temp->next = nullptr;
+		temp->previous = nullptr;
+
+		if (tail == nullptr)
+		{
+			head = temp;
+			tail = temp;
+			tail->next = nullptr;
+			tail->previous = nullptr;
+		}
+		else
+		{
+			tail->next = temp;
+			if (_nodeCounter == 1)
+				head->next = temp;
+			temp->previous = tail;
+			temp->next = nullptr;
+			tail = temp;
 			temp = nullptr;
 		}
 		_nodeCounter++;
@@ -85,8 +114,8 @@ public:
 			unsigned int indexCount = 0;
 
 			Node * iterator = new Node();
-			iterator->_data = Tail()->_data;
-			iterator->next = Tail()->next;
+			iterator->_data = Head()->_data;
+			iterator->next = Head()->next;
 
 			while (indexCount != index)
 			{
@@ -104,8 +133,8 @@ public:
 	{
 		// Create an iterator
 		Node * iterator = new Node();
-		iterator->_data = Tail()->_data;
-		iterator->next = Tail()->next;
+		iterator->_data = Head()->_data;
+		iterator->next = Head()->next;
 		
 		while (iterator != nullptr)
 		{
@@ -121,8 +150,8 @@ public:
 	{
 		// Create an iterator
 		Node * iterator = new Node();
-		iterator->_data = Head()->_data;
-		iterator->previous = Head()->previous;
+		iterator->_data = Tail()->_data;
+		iterator->previous = Tail()->previous;
 
 		while (iterator != nullptr)
 		{

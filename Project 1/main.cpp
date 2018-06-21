@@ -6,7 +6,7 @@
 using namespace std;
 
 void TestAddHead();
-//void TestAddTail();
+void TestAddTail();
 //void TestBrackets();
 //void TestRemove();
 //void TestRemoveHeadTail();
@@ -22,9 +22,9 @@ int main()
 	cin >> testNum;
 	if (testNum == 1)
 		TestAddHead();
-	/*else if (testNum == 2)
+	else if (testNum == 2)
 		TestAddTail();
-	else if (testNum == 3)
+	/*else if (testNum == 3)
 		TestBrackets();
 	else if (testNum == 4)
 		TestRemove();
@@ -60,18 +60,18 @@ void TestAddHead()
 	data.PrintReverse();
 }
 
-//void TestAddTail()
-//{
-//	cout << "=====Testing AddTail() functionality====" << endl;
-//	LinkedList<int> data;
-//	for (int i = 0; i <= 21; i += 3)
-//		data.AddTail(i);
-//	cout << "Node count: " << data.NodeCount() << endl;
-//	cout << "Print list forward:" << endl;
-//	data.PrintForward();
-//	cout << "Print list in reverse:" << endl;
-//	data.PrintReverse();
-//}
+void TestAddTail()
+{
+	cout << "=====Testing AddTail() functionality====" << endl;
+	LinkedList<int> data;
+	for (int i = 0; i <= 21; i += 3)
+		data.AddTail(i);
+	cout << "Node count: " << data.NodeCount() << endl;
+	cout << "Print list forward:" << endl;
+	data.PrintForward();
+	cout << "Print list in reverse:" << endl;
+	data.PrintReverse();
+}
 //
 //void TestBrackets()
 //{
