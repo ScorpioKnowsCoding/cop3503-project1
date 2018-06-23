@@ -36,9 +36,101 @@ public:
 
 	// Removal Functions
 
+	bool RemoveHead()
+	{
+		// Check if List is empty
+		if (head == nullptr)
+		{
+			return false;
+		}
+		// Check if only one element is remaining
+		else if (head->next == nullptr)
+		{
+			head = nullptr;
+			tail = nullptr;
+			_nodeCounter--;
+			return true;
+		}
+		else
+		{
+			head->next->previous = nullptr;
+			head = head->next;
+			_nodeCounter--;
+			return true;
+		}
+		
+	}
+
+	bool RemoveTail()
+	{
+		// Check if List is empty
+		if (tail == nullptr)
+		{
+			return false;
+		}
+		// Check if list has a single element
+		else if (tail->previous == nullptr)
+		{
+			tail = nullptr;
+			head = nullptr;
+			_nodeCounter--;
+			return true;
+		}
+		else
+		{
+			tail->previous->next = nullptr;
+			tail = tail->previous;
+			_nodeCounter--;
+			return true;
+		}
+		
+	}
+
+	bool RemoveAt(unsigned int index)
+	{
+		if (index > _nodeCounter)
+		{
+			return false;
+		}
+		else
+		{
+			Node * iterator = createIterator();
+			unsigned int indexCounter = 0;
+
+			while (indexCounter != index)
+			{
+				iterator = iterator->next;
+				indexCounter++;
+			}
+
+			// If iterator is at Head
+			if (iterator->previous == nullptr)
+			{
+				iterator->next->previous = nullptr;
+			}
+			// If iterator is at the Tail
+			else if (iterator->next == nullptr)
+			{
+				iterator->previous->next = nullptr;
+			}
+			// If in the middle of List
+			else
+			{
+				iterator->previous->next = iterator->next;
+				iterator->next->previous = iterator->previous;
+			}
+
+			_nodeCounter--;
+			delete iterator;
+
+			return true;
+		}
+		
+	}
+
 	unsigned int Remove(const T &data)
 	{
-		unsigned int indexCount , elementsRemoved = 0;
+		unsigned int elementsRemoved = 0;
 		Node * iterator = createIterator();
 		
 		for (unsigned int i = 0; i < _nodeCounter; i++)
