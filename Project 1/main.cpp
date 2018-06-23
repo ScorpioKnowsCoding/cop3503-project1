@@ -7,8 +7,8 @@ using namespace std;
 
 void TestAddHead();
 void TestAddTail();
-//void TestBrackets();
-//void TestRemove();
+void TestBrackets();
+void TestRemove();
 //void TestRemoveHeadTail();
 //void TestOtherRemoval();
 //void TestAddingArrays();
@@ -24,11 +24,11 @@ int main()
 		TestAddHead();
 	else if (testNum == 2)
 		TestAddTail();
-	/*else if (testNum == 3)
+	else if (testNum == 3)
 		TestBrackets();
 	else if (testNum == 4)
 		TestRemove();
-	else if (testNum == 5)
+	/*else if (testNum == 5)
 		TestRemoveHeadTail();
 	else if (testNum == 6)
 		TestOtherRemoval();
@@ -72,59 +72,59 @@ void TestAddTail()
 	cout << "Print list in reverse:" << endl;
 	data.PrintReverse();
 }
-//
-//void TestBrackets()
-//{
-//	cout << "=====Testing operator[] to access value of nodes=====" << endl;
-//	LinkedList<int> list;
-//	int val = 10, val2 = 999, val3 = 22;
-//	cout << "Adding 10 to end of list" << endl;
-//	list.AddTail(val);
-//	cout << "Adding 999 to end of list" << endl;
-//	list.AddTail(val2);
-//	cout << "Adding 22 to end of list" << endl;
-//	list.AddTail(val3);
-//
-//	const int value = list[0];
-//	cout << "Value of node[0]: " << val << " Expected value: " << value << endl;
-//	const int value2 = list[1];
-//	cout << "Value of node[1]: " << val2 << " Expected value: " << value2 << endl;
-//	int value3 = list[2];
-//	cout << "Value of node[2]: " << val3 << " Expected value: " << value3 << endl;
-//
-//	cout << "Using brackets operator in a loop to change node values..." << endl;
-//	for (unsigned int i = 0; i < list.NodeCount(); i++)
-//		list[i] = i;
-//
-//	list.PrintForward();
-//}
-//
-//void TestRemove()
-//{
-//	cout << "=====Testing Remove() functionality=====" << endl;
-//	LinkedList<string> data;
-//	string test = "Test RemoveMe to RemoveMe find RemoveMe all RemoveMe matching ";
-//	test.append("RemoveMe nodes RemoveMe completed RemoveMe with RemoveMe no ");
-//	test.append("RemoveMe \"RemoveMe\" RemoveMe nodes RemoveMe remaining.");
-//	stringstream x(test);
-//	string tmp;
-//	while (getline(x, tmp, ' '))
-//		data.AddTail(tmp);
-//
-//	cout << "Initial list: " << endl;
-//	data.PrintForward();
-//	string val = "RemoveMe";
-//	int count = data.Remove(val);
-//	cout << "\nRemoving " << val << " from the list." << endl;
-//	cout << "Removed " << count << " nodes from the list.\n" << endl;
-//	data.PrintForward();
-//	cout << "\nNodes removed: " << count << endl;
-//
-//	count = data.Remove(val);
-//	cout << "Removing " << val << " from the list again." << endl;
-//	cout << "Nodes removed: " << count << endl;
-//
-//}
+
+void TestBrackets()
+{
+	cout << "=====Testing operator[] to access value of nodes=====" << endl;
+	LinkedList<int> list;
+	int val = 10, val2 = 999, val3 = 22;
+	cout << "Adding 10 to end of list" << endl;
+	list.AddTail(val);
+	cout << "Adding 999 to end of list" << endl;
+	list.AddTail(val2);
+	cout << "Adding 22 to end of list" << endl;
+	list.AddTail(val3);
+
+	const int value = list[0];
+	cout << "Value of node[0]: " << val << " Expected value: " << value << endl;
+	const int value2 = list[1];
+	cout << "Value of node[1]: " << val2 << " Expected value: " << value2 << endl;
+	int value3 = list[2];
+	cout << "Value of node[2]: " << val3 << " Expected value: " << value3 << endl;
+
+	cout << "Using brackets operator in a loop to change node values..." << endl;
+	for (unsigned int i = 0; i < list.NodeCount(); i++)
+		list[i] = i;
+
+	list.PrintForward();
+}
+
+void TestRemove()
+{
+	cout << "=====Testing Remove() functionality=====" << endl;
+	LinkedList<string> data;
+	string test = "Test RemoveMe to RemoveMe find RemoveMe all RemoveMe matching ";
+	test.append("RemoveMe nodes RemoveMe completed RemoveMe with RemoveMe no ");
+	test.append("RemoveMe \"RemoveMe\" RemoveMe nodes RemoveMe remaining.");
+	stringstream x(test);
+	string tmp;
+	while (getline(x, tmp, ' '))
+		data.AddTail(tmp);
+
+	cout << "Initial list: " << endl;
+	data.PrintForward();
+	string val = "RemoveMe";
+	int count = data.Remove(val);
+	cout << "\nRemoving " << val << " from the list." << endl;
+	cout << "Removed " << count << " nodes from the list.\n" << endl;
+	data.PrintForward();
+	cout << "\nNodes removed: " << count << endl;
+
+	count = data.Remove(val);
+	cout << "Removing " << val << " from the list again." << endl;
+	cout << "Nodes removed: " << count << endl;
+
+}
 //
 //void TestRemoveHeadTail()
 //{

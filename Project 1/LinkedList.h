@@ -22,8 +22,54 @@ public:
 		T _data;
 	};
 
+	// Iterator Pointer
+	Node * createIterator()
+	{
+		Node * iterator = new Node();
+		iterator->_data = Head()->_data;
+		iterator->next = Head()->next;
+
+		return iterator;
+	}
+
 	// ========= Mutators ========== //
 
+	// Removal Functions
+
+	unsigned int Remove(const T &data)
+	{
+		unsigned int indexCount , elementsRemoved = 0;
+		Node * iterator = createIterator();
+		
+		for (unsigned int i = 0; i < _nodeCounter; i++)
+		{
+			if (iterator->_data == data)
+			{
+				// If iterator is at Head
+				if (iterator->previous == nullptr)
+				{
+					iterator->next->previous = nullptr;
+				}
+				// If iterator is at the Tail
+				else if (iterator->next == nullptr)
+				{
+					iterator->previous->next = nullptr;
+				}
+				// If in the middle of List
+				else
+				{
+					iterator->previous->next = iterator->next;
+					iterator->next->previous = iterator->previous;
+				}
+				elementsRemoved++;
+			}
+			iterator = iterator->next;
+		}
+		// Update the nodeCounter
+		_nodeCounter -= elementsRemoved;
+		delete iterator;
+		return elementsRemoved;
+	}
 
 	// AddHead
 	void AddHead(const T &data)
@@ -166,6 +212,95 @@ public:
 	unsigned int NodeCount() const
 	{
 		return _nodeCounter;
+	}
+
+	/*===== Operators =====*/
+	const T &operator[] (unsigned int index) const
+	{
+		// Return the node at given index
+		if (index > _nodeCounter)
+		{
+			throw "Incorrect index";
+		}
+		else
+		{
+			unsigned int indexCount = 0;
+
+			Node * iterator = new Node();
+			iterator->_data = Head()->_data;
+			iterator->next = Head()->next;
+
+			while (indexCount != index)
+			{
+				iterator = iterator->next;
+				indexCount++;
+			}
+
+			return iterator->_data;
+		}
+	}
+
+	T &operator[] (unsigned int index)
+	{
+		// Return the node at given index
+		if (index > _nodeCounter)
+		{
+			throw "Incorrect index";
+		}
+		else
+		{
+			unsigned int indexCount = 0;
+
+			Node * iterator = new Node();
+			iterator->_data = Head()->_data;
+			iterator->next = Head()->next;
+
+			while (indexCount != index)
+			{
+				iterator = iterator->next;
+				indexCount++;
+			}
+
+			return iterator->_data;
+		}
+	}
+
+	/*===== The Big Three =====*/
+
+	LinkedList(const LinkedList<T> &list)
+	{
+		_nodeCounter = list._nodeCounter;
+		head = list.Head();
+		tail = list.Tail();
+
+		for (unsigned int i = 0; i < _nodeCounter; i++)
+		{
+			AddTail(list.GetNode(i));
+		}
+	}
+
+	LinkedList<T> & operator= (const LinkedList<T> &rhs)
+	{
+		_nodeCounter = list._nodeCounter;
+		head = list.Head();
+		tail = list.Tail();
+
+		for (unsigned int i = 0; i < _nodeCounter; i++)
+		{
+			AddTail(list.GetNode(i));
+		}
+
+		return *this;
+	}
+
+	~LinkedList()
+	{
+		if (Head() != nullptr)
+		{
+			// TODO: Delete all the Nodes 
+			delete head;
+			delete tail;
+		}
 	}
 
 private:

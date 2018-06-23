@@ -1,2 +1,14 @@
 ﻿  main.cpp
+c:\users\zeesh\desktop\cop 3503\project 1\project 1\project 1\linkedlist.h(41): warning C4101: 'indexCount': unreferenced local variable
+  c:\users\zeesh\desktop\cop 3503\project 1\project 1\project 1\linkedlist.h(40): note: while compiling class template member function 'unsigned int LinkedList<std::string>::Remove(const T &)'
+          with
+          [
+              T=std::string
+          ]
+  c:\users\zeesh\desktop\cop 3503\project 1\project 1\project 1\main.cpp(117): note: see reference to function template instantiation 'unsigned int LinkedList<std::string>::Remove(const T &)' being compiled
+          with
+          [
+              T=std::string
+          ]
+  c:\users\zeesh\desktop\cop 3503\project 1\project 1\project 1\main.cpp(105): note: see reference to class template instantiation 'LinkedList<std::string>' being compiled
   Project 1.vcxproj -> C:\Users\zeesh\Desktop\COP 3503\Project 1\Project 1\Debug\Project 1.exe
