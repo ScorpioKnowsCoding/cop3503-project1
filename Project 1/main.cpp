@@ -11,7 +11,7 @@ void TestBrackets();
 void TestRemove();
 void TestRemoveHeadTail();
 void TestOtherRemoval();
-//void TestAddingArrays();
+void TestAddingArrays();
 //void TestFindAll();
 //void TestFind();
 //void TestInsertAt();
@@ -32,9 +32,9 @@ int main()
 		TestRemoveHeadTail();
 	else if (testNum == 6)
 		TestOtherRemoval();
-	/*else if (testNum == 7)
+	else if (testNum == 7)
 		TestAddingArrays();
-	else if (testNum == 8)
+	/*else if (testNum == 8)
 		TestFindAll();
 	else if (testNum == 9)
 		TestFind();
@@ -196,36 +196,36 @@ void TestOtherRemoval()
 	else
 		cout << "List not empty!" << endl;
 }
-//
-//void TestAddingArrays()
-//{
-//	cout << "=====Testing AddNodesHead() and AddNodesTail() =====" << endl;
-//
-//	string values[5];
-//	values[0] = "*";
-//	values[1] = "**";
-//	values[2] = "***";
-//	values[3] = "****";
-//	values[4] = "*****";
-//
-//	LinkedList<string> list;
-//	list.AddHead("**");
-//	list.AddHead("***");
-//	list.AddHead("****");
-//	list.AddHead("*****");
-//	list.AddHead("******");
-//	list.AddHead("*******");
-//	list.AddHead("********");
-//	list.AddHead("*********");
-//	list.AddHead("********");
-//	list.AddHead("*******");
-//	list.AddHead("******");
-//
-//	list.AddNodesHead(values, 5);
-//	list.AddNodesTail(values, 5);
-//	list.PrintForward();
-//}
-//
+
+void TestAddingArrays()
+{
+	cout << "=====Testing AddNodesHead() and AddNodesTail() =====" << endl;
+
+	string values[5];
+	values[0] = "*";
+	values[1] = "**";
+	values[2] = "***";
+	values[3] = "****";
+	values[4] = "*****";
+
+	LinkedList<string> list;
+	list.AddHead("**");
+	list.AddHead("***");
+	list.AddHead("****");
+	list.AddHead("*****");
+	list.AddHead("******");
+	list.AddHead("*******");
+	list.AddHead("********");
+	list.AddHead("*********");
+	list.AddHead("********");
+	list.AddHead("*******");
+	list.AddHead("******");
+
+	list.AddNodesHead(values, 5);
+	list.AddNodesTail(values, 5);
+	list.PrintForward();
+}
+
 //void TestFindAll()
 //{
 //	cout << "=====Testing FindAll() functionality=====" << endl;

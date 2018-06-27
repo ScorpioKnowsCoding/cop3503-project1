@@ -32,6 +32,28 @@ public:
 		return iterator;
 	}
 
+	// ========= Insertion ========= //
+
+	void AddNodesHead(const T *data, unsigned int count)
+	{
+		int invertIndex = (int) count - 1;
+		// Call AddHead from bottom of the array in a for loop
+		for (int i = invertIndex; i >= 0 ; i--)
+		{
+			AddHead(data[i]);
+		}
+	}
+
+	void AddNodesTail(const T *data, unsigned int count)
+	{
+		// Call AddTail from top of the array in a for loop
+		for (unsigned int i = 0; i < count; i++)
+		{
+			AddTail(data[i]);
+		}
+
+	}
+
 	// ========= Mutators ========== //
 
 	// Removal Functions
