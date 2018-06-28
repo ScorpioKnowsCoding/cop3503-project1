@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <vector>
 using namespace std;
 
 template <typename T>
@@ -18,15 +19,15 @@ public:
 	{
 	public:
 		Node* next;
-		Node* previous;
-		T _data;
+		Node* prev;
+		T data;
 	};
 
 	// Iterator Pointer
 	Node * createIterator()
 	{
 		Node * iterator = new Node();
-		iterator->_data = Head()->_data;
+		iterator->data = Head()->data;
 		iterator->next = Head()->next;
 
 		return iterator;
@@ -56,6 +57,35 @@ public:
 
 	// ========= Mutators ========== //
 
+	// Insertion Function
+
+	void InsertAfter(Node *node, const T &data)
+	{
+		// Create a new Node with data
+		Node * newNode = new Node();
+		newNode->data = data;
+		newNode->prev = node;
+		newNode->next = node->next;
+
+		// Update the node attributes
+		node->next->prev = newNode;
+		node->next = newNode;
+
+	}
+
+	void InsertBefore(Node *node, const T &data)
+	{
+		// Create a new Node with data
+		Node * newNode = new Node();
+		newNode->data = data;
+		newNode->next = node;
+		newNode->prev = node->prev;
+
+		// Update the node attributes
+		node->prev->next = newNode;
+		node->prev = newNode;
+	}
+
 	// Removal Functions
 
 	bool RemoveHead()
@@ -75,7 +105,7 @@ public:
 		}
 		else
 		{
-			head->next->previous = nullptr;
+			head->next->prev = nullptr;
 			head = head->next;
 			_nodeCounter--;
 			return true;
@@ -91,7 +121,7 @@ public:
 			return false;
 		}
 		// Check if list has a single element
-		else if (tail->previous == nullptr)
+		else if (tail->prev == nullptr)
 		{
 			tail = nullptr;
 			head = nullptr;
@@ -100,8 +130,8 @@ public:
 		}
 		else
 		{
-			tail->previous->next = nullptr;
-			tail = tail->previous;
+			tail->prev->next = nullptr;
+			tail = tail->prev;
 			_nodeCounter--;
 			return true;
 		}
@@ -126,20 +156,20 @@ public:
 			}
 
 			// If iterator is at Head
-			if (iterator->previous == nullptr)
+			if (iterator->prev == nullptr)
 			{
-				iterator->next->previous = nullptr;
+				iterator->next->prev = nullptr;
 			}
 			// If iterator is at the Tail
 			else if (iterator->next == nullptr)
 			{
-				iterator->previous->next = nullptr;
+				iterator->prev->next = nullptr;
 			}
 			// If in the middle of List
 			else
 			{
-				iterator->previous->next = iterator->next;
-				iterator->next->previous = iterator->previous;
+				iterator->prev->next = iterator->next;
+				iterator->next->prev = iterator->prev;
 			}
 
 			_nodeCounter--;
@@ -157,23 +187,23 @@ public:
 		
 		for (unsigned int i = 0; i < _nodeCounter; i++)
 		{
-			if (iterator->_data == data)
+			if (iterator->data == data)
 			{
 				// If iterator is at Head
-				if (iterator->previous == nullptr)
+				if (iterator->prev == nullptr)
 				{
-					iterator->next->previous = nullptr;
+					iterator->next->prev = nullptr;
 				}
 				// If iterator is at the Tail
 				else if (iterator->next == nullptr)
 				{
-					iterator->previous->next = nullptr;
+					iterator->prev->next = nullptr;
 				}
 				// If in the middle of List
 				else
 				{
-					iterator->previous->next = iterator->next;
-					iterator->next->previous = iterator->previous;
+					iterator->prev->next = iterator->next;
+					iterator->next->prev = iterator->prev;
 				}
 				elementsRemoved++;
 			}
@@ -190,22 +220,22 @@ public:
 	{
 		// Create a temp node
 		Node* temp = new Node();
-		temp->_data = data;
+		temp->data = data;
 		temp->next = nullptr;
-		temp->previous = nullptr;
+		temp->prev = nullptr;
 
 		if (head == nullptr)
 		{
 			head = temp;
 			tail = temp;
 			head->next = nullptr;
-			head->previous = nullptr;
+			head->prev = nullptr;
 		}
 		else
 		{
-			head->previous = temp;
+			head->prev = temp;
 			if (_nodeCounter == 1)
-				tail->previous = temp;
+				tail->prev = temp;
 			temp->next = head;
 			head = temp;
 			temp = nullptr;
@@ -218,23 +248,23 @@ public:
 	{
 		// Create a temp node
 		Node* temp = new Node();
-		temp->_data = data;
+		temp->data = data;
 		temp->next = nullptr;
-		temp->previous = nullptr;
+		temp->prev = nullptr;
 
 		if (tail == nullptr)
 		{
 			head = temp;
 			tail = temp;
 			tail->next = nullptr;
-			tail->previous = nullptr;
+			tail->prev = nullptr;
 		}
 		else
 		{
 			tail->next = temp;
 			if (_nodeCounter == 1)
 				head->next = temp;
-			temp->previous = tail;
+			temp->prev = tail;
 			temp->next = nullptr;
 			tail = temp;
 			temp = nullptr;
@@ -244,6 +274,78 @@ public:
 
 
 	// ========= Accessors ========== //
+
+	// Finders
+
+	void FindAll(vector<Node *> &outData, const T&value) const
+	{
+		// Iterate through the List
+		Node * iterator = new Node();
+		iterator = head;
+
+		for  (unsigned int i = 0; i < _nodeCounter; i++)
+		{
+			// Check if data matches value passed
+			if (iterator->data == value)
+			{
+				Node * tempPtr = new Node();
+				tempPtr = iterator;
+				// Push matched nodes in outData vector
+				outData.push_back(tempPtr);
+			}
+			iterator = iterator->next;
+		}
+
+		delete iterator;
+		
+	}
+
+	Node *Find(const T &data)
+	{
+		bool nodeFound = false;
+		Node * iterator = createIterator();
+
+		while (!nodeFound && iterator->next != nullptr)
+		{
+			if (iterator->data == data)
+			{
+				nodeFound = true;
+			}
+			iterator = iterator->next;
+		}
+		if (nodeFound)
+		{
+			return iterator->prev;
+		}
+		else
+		{
+			return nullptr;
+		}
+		
+	}
+
+	const Node *Find(const T &data) const
+	{
+		bool nodeFound = false;
+		Node * iterator = createIterator();
+
+		while (!nodeFound && iterator->next != nullptr)
+		{
+			if (iterator->data == data)
+			{
+				nodeFound = true;
+			}
+			iterator = iterator->next;
+		}
+		if (nodeFound)
+		{
+			return iterator->previous;
+		}
+		else
+		{
+			return nullptr;
+		}
+	}
 
 	Node *Tail()
 	{
@@ -263,7 +365,7 @@ public:
 		return head;
 	}
 
-	const Node * GetNode(unsigned int index)
+	const Node * GetNode(unsigned int index) const
 	{
 		if (index > _nodeCounter)
 		{
@@ -274,7 +376,7 @@ public:
 			unsigned int indexCount = 0;
 
 			Node * iterator = new Node();
-			iterator->_data = Head()->_data;
+			iterator->data = Head()->data;
 			iterator->next = Head()->next;
 
 			while (indexCount != index)
@@ -288,17 +390,42 @@ public:
 		
 	}
 
+	Node * GetNode(unsigned int index)
+	{
+		if (index > _nodeCounter)
+		{
+			throw "Incorrect index";
+		}
+		else
+		{
+			unsigned int indexCount = 0;
+
+			Node * iterator = new Node();
+			iterator->data = Head()->data;
+			iterator->next = Head()->next;
+
+			while (indexCount != index)
+			{
+				iterator = iterator->next;
+				indexCount++;
+			}
+
+			return iterator;
+		}
+
+	}
+
 	// Print all nodes in forward direction
 	void PrintForward() const
 	{
 		// Create an iterator
 		Node * iterator = new Node();
-		iterator->_data = Head()->_data;
+		iterator->data = Head()->data;
 		iterator->next = Head()->next;
 		
 		while (iterator != nullptr)
 		{
-			cout << iterator->_data << endl;
+			cout << iterator->data << endl;
 			iterator = iterator->next;
 		}
 
@@ -310,13 +437,13 @@ public:
 	{
 		// Create an iterator
 		Node * iterator = new Node();
-		iterator->_data = Tail()->_data;
-		iterator->previous = Tail()->previous;
+		iterator->data = Tail()->data;
+		iterator->prev = Tail()->prev;
 
 		while (iterator != nullptr)
 		{
-			cout << iterator->_data << endl;
-			iterator = iterator->previous;
+			cout << iterator->data << endl;
+			iterator = iterator->prev;
 		}
 
 		delete iterator;
@@ -341,7 +468,7 @@ public:
 			unsigned int indexCount = 0;
 
 			Node * iterator = new Node();
-			iterator->_data = Head()->_data;
+			iterator->data = Head()->data;
 			iterator->next = Head()->next;
 
 			while (indexCount != index)
@@ -350,7 +477,7 @@ public:
 				indexCount++;
 			}
 
-			return iterator->_data;
+			return iterator->data;
 		}
 	}
 
@@ -366,7 +493,7 @@ public:
 			unsigned int indexCount = 0;
 
 			Node * iterator = new Node();
-			iterator->_data = Head()->_data;
+			iterator->data = Head()->data;
 			iterator->next = Head()->next;
 
 			while (indexCount != index)
@@ -375,7 +502,7 @@ public:
 				indexCount++;
 			}
 
-			return iterator->_data;
+			return iterator->data;
 		}
 	}
 
@@ -420,7 +547,7 @@ public:
 private:
 	unsigned int _nodeCounter;
 	Node* next;
-	Node* previous;
+	Node* prev;
 	Node* head;
 	Node* tail;
 

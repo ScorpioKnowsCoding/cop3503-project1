@@ -12,8 +12,8 @@ void TestRemove();
 void TestRemoveHeadTail();
 void TestOtherRemoval();
 void TestAddingArrays();
-//void TestFindAll();
-//void TestFind();
+void TestFindAll();
+void TestFind();
 //void TestInsertAt();
 
 int main()
@@ -34,11 +34,11 @@ int main()
 		TestOtherRemoval();
 	else if (testNum == 7)
 		TestAddingArrays();
-	/*else if (testNum == 8)
+	else if (testNum == 8)
 		TestFindAll();
 	else if (testNum == 9)
 		TestFind();
-	else if (testNum == 10)
+	/*else if (testNum == 10)
 		TestInsertAt();
 */
 
@@ -226,96 +226,96 @@ void TestAddingArrays()
 	list.PrintForward();
 }
 
-//void TestFindAll()
-//{
-//	cout << "=====Testing FindAll() functionality=====" << endl;
-//	LinkedList<int> data;
-//	int searchVal = 256;
-//
-//	data.AddTail(searchVal);
-//	data.AddTail(10);
-//	data.AddTail(20);
-//	data.AddTail(searchVal);
-//	data.AddTail(30);
-//	data.AddTail(searchVal);
-//	data.AddTail(40);
-//	data.AddTail(searchVal);
-//
-//	cout << "Initial list: " << endl;
-//	data.PrintForward();
-//
-//	vector<LinkedList<int>::Node *> nodes;
-//	data.FindAll(nodes, searchVal);
-//
-//	cout << "\nNodes found: " << nodes.size() << endl;
-//	for (unsigned int i = 0; i < nodes.size(); i++)
-//	{
-//		cout << "Node #" << (i + 1) << ":\n";
-//		cout << "Value: " << nodes[i]->data << endl;
-//
-//		cout << "Prev value: ";
-//		if (nodes[i]->prev != nullptr)
-//			cout << nodes[i]->prev->data;
-//		else
-//			cout << "nullptr";
-//
-//		cout << "\nNext value: ";
-//		if (nodes[i]->next != nullptr)
-//			cout << nodes[i]->next->data;
-//		else
-//			cout << "nullptr";
-//		cout << endl;
-//	}
-//}
-//
-//void TestFind()
-//{
-//	cout << "=====Testing Find()/GetNode() and InsertBefore()/InsertAfter() functionality=====" << endl;
-//	LinkedList<int> data;
-//	data.AddTail(10);
-//	data.AddHead(9);
-//	data.AddTail(11);
-//	data.AddHead(8);
-//	data.AddTail(12);
-//
-//	cout << "Initial list: " << endl;
-//	data.PrintForward();
-//
-//	LinkedList<int>::Node * node = data.Find(10);
-//	cout << "\nSearching for node with value of 10..." << endl;
-//
-//	if (node != nullptr)
-//	{
-//		cout << "Node found! Value: " << node->data << endl;
-//		cout << "Prev value: " << node->prev->data << endl;
-//		cout << "Next value: " << node->next->data << endl;
-//	}
-//	else
-//		cout << "Error! Returned node was a nullptr.";
-//
-//	cout << "\nInserting 2048 before node and 4096 after node." << endl;
-//	data.InsertBefore(node, 2048);
-//	data.InsertAfter(node, 4096);
-//	data.PrintForward();
-//
-//	cout << "\nUsing GetNode() to get the 5th node in the list..." << endl;
-//
-//	node = data.GetNode(4);
-//	if (node != nullptr)
-//	{
-//		cout << "Node found! Value: " << node->data << endl;
-//		cout << "Prev value: " << node->prev->data << endl;
-//		cout << "Next value: " << node->next->data << endl;
-//	}
-//	else
-//		cout << "Error! Returned node was a nullptr.";
-//
-//	cout << "\nSearching for node with value of 200..." << endl;
-//	node = data.Find(200);
-//	if (node == nullptr)
-//		cout << "Node not found, nullptr returned." << endl;
-//}
-//
+void TestFindAll()
+{
+	cout << "=====Testing FindAll() functionality=====" << endl;
+	LinkedList<int> data;
+	int searchVal = 256;
+
+	data.AddTail(searchVal);
+	data.AddTail(10);
+	data.AddTail(20);
+	data.AddTail(searchVal);
+	data.AddTail(30);
+	data.AddTail(searchVal);
+	data.AddTail(40);
+	data.AddTail(searchVal);
+
+	cout << "Initial list: " << endl;
+	data.PrintForward();
+
+	vector<LinkedList<int>::Node *> nodes;
+	data.FindAll(nodes, searchVal);
+
+	cout << "\nNodes found: " << nodes.size() << endl;
+	for (unsigned int i = 0; i < nodes.size(); i++)
+	{
+		cout << "Node #" << (i + 1) << ":\n";
+		cout << "Value: " << nodes[i]->data << endl;
+
+		cout << "Prev value: ";
+		if (nodes[i]->prev != nullptr)
+			cout << nodes[i]->prev->data;
+		else
+			cout << "nullptr";
+
+		cout << "\nNext value: ";
+		if (nodes[i]->next != nullptr)
+			cout << nodes[i]->next->data;
+		else
+			cout << "nullptr";
+		cout << endl;
+	}
+}
+
+void TestFind()
+{
+	cout << "=====Testing Find()/GetNode() and InsertBefore()/InsertAfter() functionality=====" << endl;
+	LinkedList<int> data;
+	data.AddTail(10);
+	data.AddHead(9);
+	data.AddTail(11);
+	data.AddHead(8);
+	data.AddTail(12);
+
+	cout << "Initial list: " << endl;
+	data.PrintForward();
+
+	LinkedList<int>::Node * node = data.Find(10);
+	cout << "\nSearching for node with value of 10..." << endl;
+
+	if (node != nullptr)
+	{
+		cout << "Node found! Value: " << node->data << endl;
+		cout << "Prev value: " << node->prev->data << endl;
+		cout << "Next value: " << node->next->data << endl;
+	}
+	else
+		cout << "Error! Returned node was a nullptr.";
+
+	cout << "\nInserting 2048 before node and 4096 after node." << endl;
+	data.InsertBefore(node, 2048);
+	data.InsertAfter(node, 4096);
+	data.PrintForward();
+
+	cout << "\nUsing GetNode() to get the 5th node in the list..." << endl;
+
+	node = data.GetNode(4);
+	if (node != nullptr)
+	{
+		cout << "Node found! Value: " << node->data << endl;
+		cout << "Prev value: " << node->prev->data << endl;
+		cout << "Next value: " << node->next->data << endl;
+	}
+	else
+		cout << "Error! Returned node was a nullptr.";
+
+	cout << "\nSearching for node with value of 200..." << endl;
+	node = data.Find(200);
+	if (node == nullptr)
+		cout << "Node not found, nullptr returned." << endl;
+}
+
 //void TestInsertAt()
 //{
 //	cout << "=====Testing InsertAt() functionality=====" << endl;
