@@ -14,7 +14,7 @@ void TestOtherRemoval();
 void TestAddingArrays();
 void TestFindAll();
 void TestFind();
-//void TestInsertAt();
+void TestInsertAt();
 
 int main()
 {
@@ -38,9 +38,9 @@ int main()
 		TestFindAll();
 	else if (testNum == 9)
 		TestFind();
-	/*else if (testNum == 10)
+	else if (testNum == 10)
 		TestInsertAt();
-*/
+
 
 	_getch();
 	return 0;
@@ -111,6 +111,7 @@ void TestRemove()
 	while (getline(x, tmp, ' '))
 		data.AddTail(tmp);
 
+	//data.PrintForward();
 	cout << "Initial list: " << endl;
 	data.PrintForward();
 	string val = "RemoveMe";
@@ -316,29 +317,29 @@ void TestFind()
 		cout << "Node not found, nullptr returned." << endl;
 }
 
-//void TestInsertAt()
-//{
-//	cout << "=====Testing InsertAt() functionality=====" << endl;
-//	LinkedList<string> data;
-//	string test = "great benefit linked is the ability to easily into the";
-//	stringstream x(test);
-//	string tmp;
-//	while (getline(x, tmp, ' '))
-//		data.AddTail(tmp);
-//
-//	cout << "Initial list: " << endl;
-//	data.PrintForward();
-//	cout << "Node count: " << data.NodeCount() << endl;
-//
-//	cout << "\nInserting words into the list with InsertAt()..." << endl;
-//
-//	data.InsertAt("One", 0);
-//	data.InsertAt("of", 3);
-//	data.InsertAt("lists", 5);
-//	data.InsertAt("insert", 10);
-//	data.InsertAt("nodes", 11);
-//	data.InsertAt("list.", 15);
-//
-//	data.PrintForward();
-//	cout << "Node count: " << data.NodeCount() << endl;
-//}
+void TestInsertAt()
+{
+	cout << "=====Testing InsertAt() functionality=====" << endl;
+	LinkedList<string> data;
+	string test = "great benefit linked is the ability to easily into the";
+	stringstream x(test);
+	string tmp;
+	while (getline(x, tmp, ' '))
+		data.AddTail(tmp);
+
+	cout << "Initial list: " << endl;
+	data.PrintForward();
+	cout << "Node count: " << data.NodeCount() << endl;
+
+	cout << "\nInserting words into the list with InsertAt()..." << endl;
+
+	data.InsertAt("One", 0);
+	data.InsertAt("of", 3);
+	data.InsertAt("lists", 5);
+	data.InsertAt("insert", 10);
+	data.InsertAt("nodes", 11);
+	data.InsertAt("list.", 15);
+
+	data.PrintForward();
+	cout << "Node count: " << data.NodeCount() << endl;
+}

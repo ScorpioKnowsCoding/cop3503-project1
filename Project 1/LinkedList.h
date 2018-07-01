@@ -10,8 +10,8 @@ public:
 	LinkedList()
 	{
 		_nodeCounter = 0;
-		Node* head = nullptr;
-		Node* tail = nullptr;
+		head = nullptr;
+		tail = nullptr;
 	}
 
 	// Node Nested Class
@@ -21,14 +21,13 @@ public:
 		Node* next;
 		Node* prev;
 		T data;
+
 	};
 
 	// Iterator Pointer
 	Node * createIterator()
 	{
-		Node * iterator = new Node();
-		iterator->data = Head()->data;
-		iterator->next = Head()->next;
+		iterator = Head();
 
 		return iterator;
 	}
@@ -59,6 +58,59 @@ public:
 
 	// Insertion Function
 
+	void InsertAt(const T &data, unsigned int index)
+	{
+		if (index > _nodeCounter)
+		{
+			throw "Incorrect Index";
+		}
+		else if (index == _nodeCounter)
+		{
+			// Handles the end of list index
+			Node * newNode = new Node();
+			newNode->data = data;
+			tail->next = newNode;
+			newNode->prev = tail;
+			newNode->next = nullptr;
+			tail = newNode;
+
+			_nodeCounter++;
+		}
+		else
+		{
+			Node * newNode = new Node();
+			unsigned int count = 0;
+			newNode->data = data;
+
+			iterator = createIterator();
+			// Iterate through nodes in the list till index
+			while (count != index)
+			{
+				iterator = iterator->next;
+				count++;
+			}
+			// Update the new node's attributes
+			newNode->prev = iterator->prev;
+			newNode->next = iterator;
+
+			//Update the adjacent Nodes
+			if (iterator->prev != nullptr)
+			{
+				iterator->prev->next = newNode;
+			}
+			else
+			{
+				head = newNode;
+			}
+
+			// Update the old node at i'th position
+			iterator->prev = newNode;
+
+			_nodeCounter++;
+		}
+		
+	}
+
 	void InsertAfter(Node *node, const T &data)
 	{
 		// Create a new Node with data
@@ -70,6 +122,7 @@ public:
 		// Update the node attributes
 		node->next->prev = newNode;
 		node->next = newNode;
+		_nodeCounter++;
 
 	}
 
@@ -84,9 +137,27 @@ public:
 		// Update the node attributes
 		node->prev->next = newNode;
 		node->prev = newNode;
+		_nodeCounter++;
 	}
 
 	// Removal Functions
+
+	void Clear()
+	{
+		Node * ptr = Head();
+		Node * temp;
+
+		while (ptr != nullptr)
+		{
+			temp = ptr->next;
+			delete ptr;
+			ptr = temp;
+		}
+
+		head = nullptr;
+		tail = nullptr;
+		_nodeCounter = 0;
+	}
 
 	bool RemoveHead()
 	{
@@ -146,7 +217,7 @@ public:
 		}
 		else
 		{
-			Node * iterator = createIterator();
+			iterator = createIterator();
 			unsigned int indexCounter = 0;
 
 			while (indexCounter != index)
@@ -173,7 +244,7 @@ public:
 			}
 
 			_nodeCounter--;
-			delete iterator;
+			iterator = nullptr;
 
 			return true;
 		}
@@ -183,10 +254,12 @@ public:
 	unsigned int Remove(const T &data)
 	{
 		unsigned int elementsRemoved = 0;
-		Node * iterator = createIterator();
+		Node * iterator = head;
+		Node* temp;
 		
-		for (unsigned int i = 0; i < _nodeCounter; i++)
+		while (iterator != nullptr)
 		{
+			temp = iterator->next;
 			if (iterator->data == data)
 			{
 				// If iterator is at Head
@@ -205,13 +278,13 @@ public:
 					iterator->prev->next = iterator->next;
 					iterator->next->prev = iterator->prev;
 				}
+				delete iterator;
 				elementsRemoved++;
 			}
-			iterator = iterator->next;
+			iterator = temp;
 		}
 		// Update the nodeCounter
 		_nodeCounter -= elementsRemoved;
-		delete iterator;
 		return elementsRemoved;
 	}
 
@@ -238,7 +311,6 @@ public:
 				tail->prev = temp;
 			temp->next = head;
 			head = temp;
-			temp = nullptr;
 		}
 		_nodeCounter++;
 	}
@@ -247,7 +319,7 @@ public:
 	void AddTail(const T &data)
 	{
 		// Create a temp node
-		Node* temp = new Node();
+		temp = new Node();
 		temp->data = data;
 		temp->next = nullptr;
 		temp->prev = nullptr;
@@ -280,8 +352,7 @@ public:
 	void FindAll(vector<Node *> &outData, const T&value) const
 	{
 		// Iterate through the List
-		Node * iterator = new Node();
-		iterator = head;
+		Node * iterator = head;
 
 		for  (unsigned int i = 0; i < _nodeCounter; i++)
 		{
@@ -292,18 +363,21 @@ public:
 				tempPtr = iterator;
 				// Push matched nodes in outData vector
 				outData.push_back(tempPtr);
+				tempPtr = nullptr;
 			}
 			iterator = iterator->next;
+			
 		}
 
-		delete iterator;
+		iterator = nullptr;
+		
 		
 	}
 
 	Node *Find(const T &data)
 	{
 		bool nodeFound = false;
-		Node * iterator = createIterator();
+		iterator = createIterator();
 
 		while (!nodeFound && iterator->next != nullptr)
 		{
@@ -327,7 +401,7 @@ public:
 	const Node *Find(const T &data) const
 	{
 		bool nodeFound = false;
-		Node * iterator = createIterator();
+		iterator = createIterator();
 
 		while (!nodeFound && iterator->next != nullptr)
 		{
@@ -375,10 +449,8 @@ public:
 		{
 			unsigned int indexCount = 0;
 
-			Node * iterator = new Node();
-			iterator->data = Head()->data;
-			iterator->next = Head()->next;
-
+			Node * iterator = head;
+		
 			while (indexCount != index)
 			{
 				iterator = iterator->next;
@@ -400,9 +472,7 @@ public:
 		{
 			unsigned int indexCount = 0;
 
-			Node * iterator = new Node();
-			iterator->data = Head()->data;
-			iterator->next = Head()->next;
+			Node* iterator = head;
 
 			while (indexCount != index)
 			{
@@ -419,34 +489,26 @@ public:
 	void PrintForward() const
 	{
 		// Create an iterator
-		Node * iterator = new Node();
-		iterator->data = Head()->data;
-		iterator->next = Head()->next;
+		Node * iterator = head;
 		
 		while (iterator != nullptr)
 		{
 			cout << iterator->data << endl;
 			iterator = iterator->next;
 		}
-
-		delete iterator;
 	}
 
 	// Print all nodes from back to front
 	void PrintReverse() const
 	{
 		// Create an iterator
-		Node * iterator = new Node();
-		iterator->data = Tail()->data;
-		iterator->prev = Tail()->prev;
-
+		Node * iterator = tail;
+		
 		while (iterator != nullptr)
 		{
 			cout << iterator->data << endl;
 			iterator = iterator->prev;
 		}
-
-		delete iterator;
 	}
 
 	// Get Node Count
@@ -467,9 +529,7 @@ public:
 		{
 			unsigned int indexCount = 0;
 
-			Node * iterator = new Node();
-			iterator->data = Head()->data;
-			iterator->next = Head()->next;
+			Node* iterator = head;
 
 			while (indexCount != index)
 			{
@@ -492,9 +552,8 @@ public:
 		{
 			unsigned int indexCount = 0;
 
-			Node * iterator = new Node();
-			iterator->data = Head()->data;
-			iterator->next = Head()->next;
+			Node* iterator = head;
+
 
 			while (indexCount != index)
 			{
@@ -511,24 +570,27 @@ public:
 	LinkedList(const LinkedList<T> &list)
 	{
 		_nodeCounter = list._nodeCounter;
-		head = list.Head();
-		tail = list.Tail();
 
 		for (unsigned int i = 0; i < _nodeCounter; i++)
 		{
-			AddTail(list.GetNode(i));
+			Node * newNode = new Node();
+			newNode = list.GetNode(i);
+			AddTail(newNode);
 		}
+
+		head = list.Head();
+		tail = list.Tail();
 	}
 
 	LinkedList<T> & operator= (const LinkedList<T> &rhs)
 	{
-		_nodeCounter = list._nodeCounter;
-		head = list.Head();
-		tail = list.Tail();
+		_nodeCounter = rhs._nodeCounter;
+		head = rhs.Head();
+		tail = rhs.Tail();
 
 		for (unsigned int i = 0; i < _nodeCounter; i++)
 		{
-			AddTail(list.GetNode(i));
+			AddTail(rhs.GetNode(i));
 		}
 
 		return *this;
@@ -536,13 +598,22 @@ public:
 
 	~LinkedList()
 	{
-		if (Head() != nullptr)
+		Clear();
+		/*if (iterator != nullptr)
 		{
-			// TODO: Delete all the Nodes 
-			delete head;
-			delete tail;
+			delete iterator;
 		}
+		if (head != nullptr)
+		{
+			delete head;
+		}
+		if (tail != nullptr)
+		{
+			delete tail;
+		}*/
 	}
+
+
 
 private:
 	unsigned int _nodeCounter;
@@ -550,5 +621,7 @@ private:
 	Node* prev;
 	Node* head;
 	Node* tail;
+	Node * iterator;
+	Node* temp;
 
 };
