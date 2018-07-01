@@ -15,6 +15,7 @@ void TestAddingArrays();
 void TestFindAll();
 void TestFind();
 void TestInsertAt();
+void TestCopyConstructor();
 
 int main()
 {
@@ -40,13 +41,43 @@ int main()
 		TestFind();
 	else if (testNum == 10)
 		TestInsertAt();
-
+	else if (testNum == 11)
+		TestCopyConstructor();
 
 	_getch();
 	return 0;
 }
 
 /*======== TESTING FUNCTIONS ========*/
+void TestCopyConstructor()
+{
+	cout << "Testing Copy Constructor";
+	LinkedList<int> data;
+	for (int i = 0; i < 12; i += 2)
+		data.AddHead(i);
+	cout << "Node count: " << data.NodeCount() << endl;
+	cout << "Print list forward:" << endl;
+	data.PrintForward();
+
+	LinkedList<int> dataCopy;
+	dataCopy = data;
+	cout << endl << "Print dataCopy list forward" << endl;
+	dataCopy.PrintForward();
+
+	LinkedList<int> stringDat;
+	stringDat.AddHead(56);
+	cout << "Testing equality operator :)";
+	if (data == stringDat)
+	{
+		cout << "Equal indeed";
+	}
+	else
+	{
+		cout << "Failed :(";
+	}
+
+}
+
 void TestAddHead()
 {
 	cout << "=====Testing AddHead() functionality====" << endl;

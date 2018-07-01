@@ -169,6 +169,8 @@ public:
 		// Check if only one element is remaining
 		else if (head->next == nullptr)
 		{
+			Node * temp = head;
+			delete temp;
 			head = nullptr;
 			tail = nullptr;
 			_nodeCounter--;
@@ -176,8 +178,10 @@ public:
 		}
 		else
 		{
+			Node * temp = head;
 			head->next->prev = nullptr;
 			head = head->next;
+			delete temp;
 			_nodeCounter--;
 			return true;
 		}
@@ -194,6 +198,8 @@ public:
 		// Check if list has a single element
 		else if (tail->prev == nullptr)
 		{
+			Node * temp = tail;
+			delete temp;
 			tail = nullptr;
 			head = nullptr;
 			_nodeCounter--;
@@ -201,8 +207,10 @@ public:
 		}
 		else
 		{
+			Node * temp = tail;
 			tail->prev->next = nullptr;
 			tail = tail->prev;
+			delete temp;
 			_nodeCounter--;
 			return true;
 		}
@@ -242,9 +250,8 @@ public:
 				iterator->prev->next = iterator->next;
 				iterator->next->prev = iterator->prev;
 			}
-
+			delete iterator;
 			_nodeCounter--;
-			iterator = nullptr;
 
 			return true;
 		}
@@ -359,11 +366,11 @@ public:
 			// Check if data matches value passed
 			if (iterator->data == value)
 			{
-				Node * tempPtr = new Node();
-				tempPtr = iterator;
+				//Node * tempPtr = new Node();
+				//tempPtr = iterator;
 				// Push matched nodes in outData vector
-				outData.push_back(tempPtr);
-				tempPtr = nullptr;
+				outData.push_back(iterator);
+				//tempPtr = nullptr;
 			}
 			iterator = iterator->next;
 			
@@ -565,32 +572,49 @@ public:
 		}
 	}
 
+	// Equality operator overloading
+	bool operator== (const LinkedList<T> &rhs) const
+	{
+		// Use an iterator to go through the list
+		Node * iterator = head;
+		bool isEqual = true;
+
+		// Check if number of nodes are equal
+		if (_nodeCounter != rhs._nodeCounter)
+		{
+			return false;
+		}
+
+		for (unsigned int i = 0; i < _nodeCounter; i++)
+		{
+			if (iterator->data != rhs.GetNode(i)->data)
+				isEqual = false;
+
+			iterator = iterator->next;
+		}
+
+		return isEqual;
+	}
+
 	/*===== The Big Three =====*/
 
 	LinkedList(const LinkedList<T> &list)
 	{
-		_nodeCounter = list._nodeCounter;
-
-		for (unsigned int i = 0; i < _nodeCounter; i++)
+		_nodeCounter = 0;
+		
+		for (unsigned int i = 0; i < list._nodeCounter; i++)
 		{
-			Node * newNode = new Node();
-			newNode = list.GetNode(i);
-			AddTail(newNode);
+			AddTail(list.GetNode(i)->data);
 		}
-
-		head = list.Head();
-		tail = list.Tail();
 	}
 
-	LinkedList<T> & operator= (const LinkedList<T> &rhs)
+	LinkedList<T> &operator= (const LinkedList<T> &rhs)
 	{
-		_nodeCounter = rhs._nodeCounter;
-		head = rhs.Head();
-		tail = rhs.Tail();
+		_nodeCounter = 0;
 
-		for (unsigned int i = 0; i < _nodeCounter; i++)
+		for (unsigned int i = 0; i < rhs._nodeCounter; i++)
 		{
-			AddTail(rhs.GetNode(i));
+			AddTail(rhs.GetNode(i)->data);
 		}
 
 		return *this;
@@ -599,18 +623,6 @@ public:
 	~LinkedList()
 	{
 		Clear();
-		/*if (iterator != nullptr)
-		{
-			delete iterator;
-		}
-		if (head != nullptr)
-		{
-			delete head;
-		}
-		if (tail != nullptr)
-		{
-			delete tail;
-		}*/
 	}
 
 
